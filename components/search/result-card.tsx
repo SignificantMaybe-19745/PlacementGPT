@@ -41,7 +41,7 @@ export function ResultCard({ result }: ResultCardProps) {
 
         <div className="mt-5 flex items-center justify-between">
           <span className="text-xs text-muted-foreground">
-            {new Date(result.createdAt).toLocaleDateString()}
+            Added {new Date(result.createdAt).toLocaleDateString()} 
           </span>
 
           <Link

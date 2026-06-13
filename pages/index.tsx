@@ -45,7 +45,8 @@ const [roleFilter, setRoleFilter] = useState("");
     <div className="min-h-screen bg-background">
       <SiteHeader />
 
-      <main className="mx-auto max-w-7xl px-6 py-12">
+      <main className="relative mx-auto max-w-7xl px-6 py-12">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.08),transparent_60%)]" />
         <div className="max-w-4xl">
           <div className="mb-6 inline-flex items-center rounded-full border px-3 py-1 text-sm text-muted-foreground">
   🚀 125+ Interview Experiences Indexed
