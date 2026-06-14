@@ -1,13 +1,43 @@
 {
-  "total": 1,
-  "inserted": 1,
-  "skipped": 0,
+  "total": 7,
+  "inserted": 0,
+  "skipped": 7,
   "failed": 0,
   "report": [
     {
       "sourceFile": "interview-data/PhonePe_2026/PhonePe_SDE_Aditya_Tiwari.pdf",
-      "status": "inserted",
-      "resourceId": "cmqcduhud0000p51p2tv0udlt"
+      "status": "skipped",
+      "reason": "sourceFile already exists"
+    },
+    {
+      "sourceFile": "interview-data/PhonePe_2026/PhonePe_SDE_HarshPandey.pdf",
+      "status": "skipped",
+      "reason": "sourceFile already exists"
+    },
+    {
+      "sourceFile": "interview-data/PhonePe_2026/PhonePe_SDE_SwaroopVaze.pdf",
+      "status": "skipped",
+      "reason": "sourceFile already exists"
+    },
+    {
+      "sourceFile": "interview-data/PhonePe_2026/PhonePe_SDE_TabishShaikh.pdf",
+      "status": "skipped",
+      "reason": "sourceFile already exists"
+    },
+    {
+      "sourceFile": "interview-data/PhonePe_2026/PhonePe_SDE_TalhaNaik.pdf",
+      "status": "skipped",
+      "reason": "sourceFile already exists"
+    },
+    {
+      "sourceFile": "interview-data/PhonePe_2026/PhonePe_SDE_VedantShah.pdf",
+      "status": "skipped",
+      "reason": "sourceFile already exists"
+    },
+    {
+      "sourceFile": "interview-data/PhonePe_2026/PhonePe_SDE_VenishaKalola.pdf",
+      "status": "skipped",
+      "reason": "sourceFile already exists"
     }
   ]
 }

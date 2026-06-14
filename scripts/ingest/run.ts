@@ -10,6 +10,7 @@ import { INTERVIEW_SYSTEM_PROMPT, buildUserPrompt } from "./prompts";
 
 type CliOptions = {
   dir: string;
+  file?: string;
   limit: number;
   concurrency: number;
   dryRun: boolean;
@@ -81,12 +82,13 @@ function parseArgs(): CliOptions {
   };
 
   return {
-    dir: get("--dir") ?? "interview-data",
-    limit: Number(get("--limit") ?? Number.POSITIVE_INFINITY),
-    concurrency: Math.max(1, Number(get("--concurrency") ?? 2)),
-    dryRun: args.includes("--dry-run"),
-    model: get("--model") ?? process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile",
-  };
+  dir: get("--dir") ?? "interview-data",
+  file: get("--file"),
+  limit: Number(get("--limit") ?? Number.POSITIVE_INFINITY),
+  concurrency: Math.max(1, Number(get("--concurrency") ?? 2)),
+  dryRun: args.includes("--dry-run"),
+  model: get("--model") ?? process.env.GROQ_MODEL ?? "openai/gpt-oss-120b",
+};
 }
 
 function sleep(ms: number) {
@@ -236,6 +238,8 @@ async function structureWithGroq(rawText: string, sourceFile: string, model: str
   }
 
   const groq = new Groq({ apiKey });
+  
+
 
   const response = await groq.chat.completions.create({
     model,
@@ -349,9 +353,9 @@ async function ingestOne(
   const sourceFile = path.relative(process.cwd(), pdfPath).replace(/\\/g, "/");
   const sourceKey = normalizeSourceFile(sourceFile);
 
-//   if (existing.sourceFileSet.has(sourceKey)) {
-//     return { sourceFile, status: "skipped", reason: "sourceFile already exists" };
-//   }
+  if (existing.sourceFileSet.has(sourceKey)) {
+    return { sourceFile, status: "skipped", reason: "sourceFile already exists" };
+  }
 
   const rawText = await extractPdfText(pdfPath);
 
@@ -359,10 +363,66 @@ async function ingestOne(
     return { sourceFile, status: "skipped", reason: "extracted text too short" };
   }
 
-  const structured = await withRetry(() => structureWithGroq(rawText, sourceFile, model), 3);
-  const sanitized = sanitizeStructuredInterview(structured, sourceFile);
-  const markdown = renderMarkdown(sanitized);
-  const fingerprint = fingerprintContent(markdown);
+
+const budgets = [
+  rawText.length, // Try full text first
+  18000,
+  16000,
+  12000,
+  10000,
+];
+
+let structured;
+
+for (const budget of budgets) {
+  const candidateInput = rawText.slice(
+    0,
+    Math.min(rawText.length, budget)
+  );
+
+  try {
+    structured = await withRetry(
+      () => structureWithGroq(candidateInput, sourceFile, model),
+      2
+    );
+
+    console.log(
+      `✅ ${path.basename(sourceFile)} succeeded with ${candidateInput.length} characters`
+    );
+
+    break;
+  } catch (err: any) {
+    const msg = String(err?.message ?? "");
+
+    if (
+      msg.includes("413") ||
+      msg.includes("Request too large") ||
+      msg.includes("tokens per minute") ||
+      msg.includes("rate_limit_exceeded")
+    ) {
+      console.warn(
+        `⚠️ Token limit hit. Retrying with ${Math.min(
+          rawText.length,
+          budget
+        )} characters...`
+      );
+      continue;
+    }
+
+    throw err;
+  }
+}
+
+if (!structured) {
+  throw new Error("Unable to ingest even after shrinking the input.");
+}
+const sanitized = sanitizeStructuredInterview(structured, sourceFile);
+const markdown = renderMarkdown(sanitized);
+
+const fingerprint = crypto
+  .createHash("sha256")
+  .update(JSON.stringify(sanitized))
+  .digest("hex");
 
   if (existing.contentSet.has(fingerprint)) {
     return { sourceFile, status: "skipped", reason: "duplicate content" };
@@ -401,15 +461,23 @@ async function ingestOne(
 
 async function main() {
   const options = parseArgs();
+  let pdfFiles: string[];
+
+if (options.file) {
+  pdfFiles = [path.resolve(process.cwd(), options.file)];
+} else {
   const rootDir = path.resolve(process.cwd(), options.dir);
 
-  const pdfFiles = (await fg(["**/*.pdf", "**/*.PDF"], {
+  pdfFiles = await fg(["**/*.pdf", "**/*.PDF"], {
     cwd: rootDir,
     absolute: true,
     onlyFiles: true,
-  }))
-    .sort()
-    .slice(0, options.limit);
+  });
+
+  pdfFiles.sort();
+}
+
+pdfFiles = pdfFiles.slice(0, options.limit);
 
   console.log(`Found ${pdfFiles.length} PDF files under ${options.dir}`);
   console.log(`Concurrency: ${options.concurrency}`);
