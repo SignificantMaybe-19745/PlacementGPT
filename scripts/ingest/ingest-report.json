@@ -1,43 +1,13 @@
 {
-  "total": 7,
-  "inserted": 0,
-  "skipped": 7,
+  "total": 1,
+  "inserted": 1,
+  "skipped": 0,
   "failed": 0,
   "report": [
     {
-      "sourceFile": "interview-data/PhonePe_2026/PhonePe_SDE_Aditya_Tiwari.pdf",
-      "status": "skipped",
-      "reason": "sourceFile already exists"
-    },
-    {
-      "sourceFile": "interview-data/PhonePe_2026/PhonePe_SDE_HarshPandey.pdf",
-      "status": "skipped",
-      "reason": "sourceFile already exists"
-    },
-    {
-      "sourceFile": "interview-data/PhonePe_2026/PhonePe_SDE_SwaroopVaze.pdf",
-      "status": "skipped",
-      "reason": "sourceFile already exists"
-    },
-    {
-      "sourceFile": "interview-data/PhonePe_2026/PhonePe_SDE_TabishShaikh.pdf",
-      "status": "skipped",
-      "reason": "sourceFile already exists"
-    },
-    {
-      "sourceFile": "interview-data/PhonePe_2026/PhonePe_SDE_TalhaNaik.pdf",
-      "status": "skipped",
-      "reason": "sourceFile already exists"
-    },
-    {
-      "sourceFile": "interview-data/PhonePe_2026/PhonePe_SDE_VedantShah.pdf",
-      "status": "skipped",
-      "reason": "sourceFile already exists"
-    },
-    {
-      "sourceFile": "interview-data/PhonePe_2026/PhonePe_SDE_VenishaKalola.pdf",
-      "status": "skipped",
-      "reason": "sourceFile already exists"
+      "sourceFile": "interview-data/Icici_Lombard_2026/ICICILombard_SoftwareEngineer_ManishJadhav.pdf",
+      "status": "inserted",
+      "resourceId": "cmqds85sx0000p55bbn1eqy1g"
     }
   ]
 }

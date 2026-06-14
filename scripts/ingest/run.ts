@@ -94,7 +94,20 @@ function parseArgs(): CliOptions {
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+let lastGroqRequestTime = 0;
 
+async function waitForGroqRateLimit() {
+  const MIN_INTERVAL_MS = 3500; // ~24 requests/minute
+
+  const now = Date.now();
+  const elapsed = now - lastGroqRequestTime;
+
+  if (elapsed < MIN_INTERVAL_MS) {
+    await sleep(MIN_INTERVAL_MS - elapsed);
+  }
+
+  lastGroqRequestTime = Date.now();
+}
 function normalizeText(text: string) {
   return text
     .replace(/\r\n/g, "\n")
@@ -239,7 +252,7 @@ async function structureWithGroq(rawText: string, sourceFile: string, model: str
 
   const groq = new Groq({ apiKey });
   
-
+  await waitForGroqRateLimit();
 
   const response = await groq.chat.completions.create({
     model,
@@ -269,12 +282,19 @@ async function structureWithGroq(rawText: string, sourceFile: string, model: str
   let parsed: unknown;
 
 try {
-    const cleaned = content
-  .replace(/^```json\s*/i, "")
-  .replace(/^```\s*/i, "")
-  .replace(/\s*```$/i, "")
-  .trim();
-  parsed = JSON.parse(cleaned);
+    const start = content.indexOf("{");
+const end = content.lastIndexOf("}");
+
+if (start === -1 || end === -1 || end <= start) {
+  throw new Error(
+    "Model did not return a valid JSON object:\n" +
+      content.slice(0, 500)
+  );
+}
+
+const cleaned = content.slice(start, end + 1);
+
+parsed = JSON.parse(cleaned);
 } catch {
   throw new Error(
     "Model did not return valid JSON:\n" + content.slice(0, 500)
@@ -366,8 +386,8 @@ async function ingestOne(
 
 const budgets = [
   rawText.length, // Try full text first
-  18000,
-  16000,
+  17000,
+  14000,
   12000,
   10000,
 ];
