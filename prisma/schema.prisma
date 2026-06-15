@@ -17,6 +17,6 @@ model Resource {
   contentHash String   @unique
   sourceFile String
   createdAt  DateTime @default(now())
-
+  embedding Unsupported("vector(384)")?
   @@index([company])
 }
