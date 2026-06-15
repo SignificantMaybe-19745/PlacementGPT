@@ -7,7 +7,7 @@ import Groq from "groq-sdk";
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 import { prisma } from "../../lib/prisma";
 import { INTERVIEW_SYSTEM_PROMPT, buildUserPrompt } from "./prompts";
-
+import { spawnSync } from "child_process";
 type CliOptions = {
   dir: string;
   file?: string;
@@ -72,7 +72,48 @@ function loadEnvFile(filePath = path.resolve(process.cwd(), ".env")) {
 }
 
 loadEnvFile();
+const PYTHON_BIN =
+  process.env.PYTHON_BIN ||
+  path.resolve(process.cwd(), ".venv/bin/python");
 
+function buildEmbeddingText(record: StructuredInterview, markdown: string) {
+  return [
+    `Company: ${record.company}`,
+    record.role ? `Role: ${record.role}` : null,
+    record.candidate ? `Candidate: ${record.candidate}` : null,
+    `Title: ${record.title}`,
+    "",
+    markdown,
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+function generateEmbedding(text: string): number[] {
+  const py = spawnSync(PYTHON_BIN, ["scripts/ingest/embed_query.py"], {
+    input: text,
+    encoding: "utf8",
+    maxBuffer: 10 * 1024 * 1024,
+  });
+
+  if (py.status !== 0) {
+    throw new Error(
+      `Embedding generation failed:\n${py.stderr || py.stdout || "unknown error"}`
+    );
+  }
+
+  const parsed = JSON.parse(py.stdout.trim());
+
+  if (!Array.isArray(parsed)) {
+    throw new Error("Embedding script did not return a JSON array.");
+  }
+
+  if (parsed.length !== 384) {
+    throw new Error(`Expected 384-d embedding, got ${parsed.length}.`);
+  }
+
+  return parsed;
+}
 function parseArgs(): CliOptions {
   const args = process.argv.slice(2);
 
@@ -447,7 +488,22 @@ const fingerprint = crypto
   if (existing.contentSet.has(fingerprint)) {
     return { sourceFile, status: "skipped", reason: "duplicate content" };
   }
+  const embeddingText = buildEmbeddingText(sanitized, markdown);
 
+let embeddingLiteral: string | null = null;
+
+try {
+  const embedding = await withRetry(
+    async () => generateEmbedding(embeddingText),
+    2
+  );
+
+  embeddingLiteral = `[${embedding.join(",")}]`;
+} catch (err) {
+  console.warn(
+    `⚠️ Embedding generation failed for ${sourceFile}. Continuing without embedding.`
+  );
+}
   if (dryRun) {
     console.log(`DRY RUN: ${sourceFile}`);
     console.log(JSON.stringify(sanitized, null, 2));
@@ -471,7 +527,13 @@ const fingerprint = crypto
 
   existing.contentSet.add(fingerprint);
   existing.sourceFileSet.add(sourceKey);
-
+  if (embeddingLiteral) {
+  await prisma.$executeRaw`
+    UPDATE "Resource"
+    SET embedding = ${embeddingLiteral}::vector
+    WHERE id = ${created.id}
+  `;
+}
   return {
     sourceFile,
     status: "inserted",
