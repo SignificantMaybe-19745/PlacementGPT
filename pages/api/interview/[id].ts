@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,15 +11,18 @@ export default async function handler(
     return res.status(400).json({ error: "Invalid id" });
   }
 
-  const resource = await prisma.resource.findUnique({
-    where: {
-      id,
-    },
-  });
+  try {
+    const resource = await prisma.resource.findUnique({
+      where: { id },
+    });
 
-  if (!resource) {
-    return res.status(404).json({ error: "Resource not found" });
+    if (!resource) {
+      return res.status(404).json({ error: "Resource not found" });
+    }
+
+    return res.status(200).json(resource);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Failed to load interview" });
   }
-
-  return res.status(200).json(resource);
 }

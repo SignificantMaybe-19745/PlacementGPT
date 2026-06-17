@@ -1,58 +1,84 @@
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { ArrowUpRight, Sparkles } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
 
 interface ResultCardProps {
   result: {
     id: string;
     company: string;
+    role?: string | null;
+    candidate?: string | null;
     title: string;
     content: string;
     createdAt: string;
+    hybridScore?: number;
   };
 }
 
 export function ResultCard({ result }: ResultCardProps) {
+  const snippet = result.content.replace(/\s+/g, " ").trim().slice(0, 240);
 
   return (
-    <Link href={`/interview/${result.id}`} className="block">
-    <Card className="group transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:border-primary/20">
-      <CardContent className="p-6">
-        <div className="mb-4 h-1 w-12 rounded-full bg-primary/70" />
-        <div className="flex flex-col gap-3">
-  <Badge
-    variant="secondary"
-    className="w-fit rounded-full px-3 py-1 font-medium"
-  >
-    {result.company}
-  </Badge>
+    <motion.div
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
+    >
+      <Link href={`/interview/${result.id}`} className="block">
+        <Card className="overflow-hidden border-border/60 bg-card/80 shadow-lg transition-shadow hover:shadow-2xl">
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-3">
+                <div className="flex flex-wrap gap-2">
+                  <Badge
+                    variant="secondary"
+                    className="rounded-full px-3 py-1 font-medium"
+                  >
+                    {result.company}
+                  </Badge>
 
-  <h3 className="text-2xl font-semibold tracking-tight">
-    {result.title}
-  </h3>
-</div>
+                  {result.role ? (
+                    <Badge variant="outline" className="rounded-full px-3 py-1">
+                      {result.role}
+                    </Badge>
+                  ) : null}
 
-        <p className="mt-3 line-clamp-4 text-sm leading-6 text-muted-foreground">
-          {result.content
-  .replace(/\s+/g, " ")
-  .trim()
-  .slice(0, 220)}
-        </p>
+                  {typeof result.hybridScore === "number" ? (
+                    <Badge className="rounded-full px-3 py-1">
+                      <Sparkles className="mr-1 h-3.5 w-3.5" />
+                      Match {result.hybridScore.toFixed(2)}
+                    </Badge>
+                  ) : null}
+                </div>
 
-        <div className="mt-5 flex items-center justify-between">
-          <span className="text-xs text-muted-foreground">
-            Added {new Date(result.createdAt).toLocaleDateString()} 
-          </span>
+                <h3 className="text-2xl font-semibold tracking-tight">
+                  {result.title}
+                </h3>
 
-          <Link
-  href={`/interview/${result.id}`}
-  className="font-medium text-primary transition-all group-hover:translate-x-1"
->
-  Click to read →
-</Link>
-        </div>
-      </CardContent>
-      
-    </Card></Link>
+                {result.candidate ? (
+                  <p className="text-sm text-muted-foreground">
+                    Candidate: {result.candidate}
+                  </p>
+                ) : null}
+              </div>
+
+              <ArrowUpRight className="mt-1 h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </div>
+
+            <p className="mt-5 line-clamp-4 text-sm leading-6 text-muted-foreground">
+              {snippet}
+            </p>
+
+            <div className="mt-6 flex items-center justify-between border-t border-border/60 pt-4 text-xs text-muted-foreground">
+              <span>Added {new Date(result.createdAt).toLocaleDateString()}</span>
+              <span className="font-medium text-foreground/80">
+                Open interview →
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+      </Link>
+    </motion.div>
   );
 }
