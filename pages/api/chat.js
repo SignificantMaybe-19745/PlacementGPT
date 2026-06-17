@@ -7,9 +7,15 @@ export default async function handler(req, res) {
 
   const { question } = req.body;
 
-  if (!question?.trim()) {
-    return res.status(400).json({ error: "Question is required" });
-  }
+  if (
+  typeof question !== "string" ||
+  question.trim().length === 0 ||
+  question.length > 2000
+) {
+  return res.status(400).json({
+    error: "Please provide a valid question.",
+  });
+}
 
   try {
     const docs = await hybridSearch(question, 5);
@@ -29,7 +35,7 @@ ${doc.content.slice(0, 3000)}
 
     
     const { completion, modelUsed } = await createCompletion({
-      model: process.env.GROQ_MODEL || "openai/gpt-oss-120b",
+      
       temperature: 0.2,
       messages: [
         {
@@ -38,7 +44,7 @@ ${doc.content.slice(0, 3000)}
 You are an AI interview preparation assistant.
 
 Answer ONLY using the provided interview documents.
-Do not answer is vague terms be precise
+Be precise, concise, and specific. Avoid vague statements.
 If the documents do not contain enough information, explicitly say:
 "I could not find enough evidence in the indexed interview experiences."
 
@@ -73,9 +79,23 @@ const answer = raw
       modelUsed
     });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({
-      error: "Chat failed",
-    });
-  }
+  console.error("[CHAT API]", err);
+
+  const message = String(err?.message || "").toLowerCase();
+
+  const retryable =
+    message.includes("rate") ||
+    message.includes("quota") ||
+    message.includes("limit") ||
+    message.includes("timeout") ||
+    message.includes("overloaded") ||
+    message.includes("unavailable");
+
+  return res.status(retryable ? 503 : 500).json({
+    error: retryable
+      ? "AI is temporarily unavailable. Search and interview browsing continue to work normally. Please try again in a minute."
+      : "Something went wrong while generating the response.",
+    retryable,
+  });
+}
 }
