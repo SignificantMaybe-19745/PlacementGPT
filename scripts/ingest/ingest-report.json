@@ -1,368 +1,38 @@
 {
-  "total": 72,
-  "inserted": 68,
-  "skipped": 4,
+  "total": 6,
+  "inserted": 0,
+  "skipped": 6,
   "failed": 0,
   "report": [
     {
-      "sourceFile": "interview-data/Amazon WOW/Amazon-Wow-Experience(Maitri).pdf",
-      "status": "inserted",
-      "resourceId": "cmqghit840000p59i3pik8hfk"
-    },
-    {
-      "sourceFile": "interview-data/Amazon WOW/Interview experience - Shweta Choudhary .pdf",
-      "status": "inserted",
-      "resourceId": "cmqghivq30001p59i6r9j3ygh"
-    },
-    {
-      "sourceFile": "interview-data/BNP/MayurDhevale_BNP_InterviewExperience.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghj9cy0002p59ix1kwh851"
-    },
-    {
-      "sourceFile": "interview-data/Baker Hughes/Keshav Thosar Interview Experience.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghjt4b0003p59ivclkq5ez"
-    },
-    {
-      "sourceFile": "interview-data/Barclays/AdwaitHegde_Barclays_SummerInternship.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghkdod0004p59io8z693b5"
-    },
-    {
-      "sourceFile": "interview-data/Barclays/ArnavEkapure_Barclays_BA3(GraduateAnalyst) .pdf",
-      "status": "inserted",
-      "resourceId": "cmqghl46w0005p59i4zo8fgi3"
-    },
-    {
-      "sourceFile": "interview-data/Barclays/Atharva_Shitole_Barcleys_Graduate_Analyst.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghlrxt0006p59ika4chjrd"
-    },
-    {
-      "sourceFile": "interview-data/Barclays/Barclays_Harshad Banate.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghmee10007p59iolytxpxe"
-    },
-    {
-      "sourceFile": "interview-data/Crisil/CRISIL_Sagar_Kesharwani.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghmzm50008p59il5ah3g8n"
-    },
-    {
-      "sourceFile": "interview-data/Crisil/CRISIL_Sandesh_Shivane.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghnevf0009p59in4mq42p9"
-    },
-    {
-      "sourceFile": "interview-data/Crisil/Sanket_Raut_Crisil_interview.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghnvlo000ap59ie8kqav0g"
-    },
-    {
-      "sourceFile": "interview-data/Deloitte/Vaibhav_Raina_Deloitte_Risk&FianancialAdvisory.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghoiuw000bp59iaamq15ff"
-    },
-    {
-      "sourceFile": "interview-data/Deutsche Bank/Aditi Bhosale_Deutsche Bank_Graduate Analyst.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghpbau000cp59iypng04v6"
-    },
-    {
-      "sourceFile": "interview-data/Deutsche Bank/Deutsche_Bank-Technology_Analyst.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghpzs6000dp59iy1ea3481"
-    },
-    {
-      "sourceFile": "interview-data/Deutsche Bank/Kaustubh Mhatre_Deustche Bank_Technology Analyst.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghqpyf000ep59i3tzi1k16"
-    },
-    {
-      "sourceFile": "interview-data/Deutsche Bank/Maitri_Vora_DeutscheBank.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghrh6q000fp59itetus0vq"
-    },
-    {
-      "sourceFile": "interview-data/Deutsche Bank/Sachin_Vishwakarma_Deutsche_Bank_Data_Analyst.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghs766000gp59iifosgstg"
-    },
-    {
-      "sourceFile": "interview-data/Dolat Capital/Aniket Narbariya_Dolat Capital_Strategy Software Developer.docx (1)_deleted_1pdf.io.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghst5z000hp59inwnb11i9"
-    },
-    {
-      "sourceFile": "interview-data/GEP/Aayush Kawathekar_GEP_Senior Analyst Trainee.pdf",
-      "status": "inserted",
-      "resourceId": "cmqght6fk000ip59iw6ydq6e3"
-    },
-    {
-      "sourceFile": "interview-data/GEP/GEP_Placement_Experience_Abhinav_Pallayil.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghtvav000jp59i0ruop9xr"
-    },
-    {
-      "sourceFile": "interview-data/General Mills/General_Mills_Prashant_Singh.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghun9i000kp59iq0v2r44l"
-    },
-    {
-      "sourceFile": "interview-data/ICICI Lambard/Mandar_Godambe_ICICI_LOMBARD_Cloud_Developer.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghvgbb000lp59iblvutr2w"
-    },
-    {
-      "sourceFile": "interview-data/ICICI Lambard/Mohammed Saud Sayed_ICICI Lombard_Cloud Developer.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghwa9q000mp59ivnd9mxjh"
-    },
-    {
-      "sourceFile": "interview-data/ICICI Lambard/Sanchit_ICICI-Lombard_Cloud-Developer.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghx03j000np59iolcavmup"
-    },
-    {
-      "sourceFile": "interview-data/IIFL/Sejal Gurkhe_ IIFL finance_Developer.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghxm8r000op59i3c2iz4m1"
-    },
-    {
-      "sourceFile": "interview-data/ISS/HusainChallawala_ISS_JuniorAnalyst.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghy8nb000pp59iraof7jrh"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/Corporate Analyst Development Program (CADP)/JPMC_CADP_Atharva.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghyvbr000qp59ic741cq6m"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/Corporate Analyst Development Program (CADP)/JPMC_CADP_Chris_Paul.pdf",
-      "status": "inserted",
-      "resourceId": "cmqghzgxv000rp59isix0gz79"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/Corporate Investment Banking (CIB)/Anupriya Dasgupta JPMC CIB.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgi0jkm000sp59iztuvu9nd"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/Corporate Investment Banking (CIB)/Arohi Shinde_JPMC_CIB(1).pdf",
-      "status": "inserted",
-      "resourceId": "cmqgi1eyk000tp59icnnfeai8"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/Corporate Investment Banking (CIB)/Arohi Shinde_JPMC_CIB.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgi2ce3000up59i18yglte6"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/Corporate Investment Banking (CIB)/Darshan Tater_JPMC_CIB_Interview_Experience.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgi3de2000vp59ipji632eq"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/Corporate Investment Banking (CIB)/JPMC_IB_Apurv .pdf",
-      "status": "inserted",
-      "resourceId": "cmqgi3uvv000wp59iwpw2xzne"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/Corporate Investment Banking (CIB)/Khushi_Agrawal_Interview_Experience_JPMC_CIB.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgi4khx000xp59ir4qxly28"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/FinTech/JPMC_FinTech_Pushkar_Sutar.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgi5935000yp59iakoof134"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/FinTech/JPMC_FinTech_Sruthi_Shivaramakrishnan.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgi5yq1000zp59i7eq7uukj"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/JPMC CFG/Amogh Godbole JPMC CFG SDE.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgi6njp0010p59izfvjnirr"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/JPMC CFG/SakshiGadegaonkar_JPMC_SEP.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgi78xj0011p59ijnj3ns3w"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/JPMC CR/JPMC Interview Experience (On-Campus).pdf",
-      "status": "inserted",
-      "resourceId": "cmqgi7rz60012p59iiw271s2h"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/JPMC CR/Richa_JPMC_CR.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgi8cc80013p59i6wzm2q6u"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/JPMC CR/Sneha_JPMC_CR.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgi91i70014p59if3mycr0p"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/PPO/Chetashri Mahajan_JPMC_Software Engineer.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgi9qbb0015p59ik0izmkog"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/PPO/Manvita_Joshi_JPMC.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgiafz90016p59i4bffhj36"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/Quantitative Research (QR)/ArjunPansare_JPMC_QR.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgibbyo0017p59i7e8yxlfy"
-    },
-    {
-      "sourceFile": "interview-data/JPMC/Quantitative Research (QR)/Shria_Srivastava_JPMC_QR.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgibyvg0018p59i2p216btb"
-    },
-    {
-      "sourceFile": "interview-data/MSCI/Kushal_MSCI_FTE.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgicj2r0019p59i0lznjzpr"
-    },
-    {
-      "sourceFile": "interview-data/MSCI/Limark_Dcunha_MSCI_SDE.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgid4rd001ap59iup5tuunk"
-    },
-    {
-      "sourceFile": "interview-data/MSCI/YashJagtap_MSCI_Technology_Analyst.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgidt17001bp59iqpocywwk"
-    },
-    {
-      "sourceFile": "interview-data/Nomura/VishalGondke_Nomura.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgiegi2001cp59i0xeultgj"
-    },
-    {
-      "sourceFile": "interview-data/Oracle/(Sudhanshu Narsude)(Oracle)(Associate Consultant).pdf",
-      "status": "inserted",
-      "resourceId": "cmqgif2ox001dp59i43rgm3fl"
-    },
-    {
-      "sourceFile": "interview-data/Oracle/Parth_Lende_Oracle_Associate_Consultant.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgig0n1001ep59ihae9c8jy"
-    },
-    {
-      "sourceFile": "interview-data/PhonePe/PhonePe FTE Interview Experience.pdf",
+      "sourceFile": "interview-data/Russell_Summer_Interns/Russel_Investments_Tech_Intern_Aaryan_Mantri.pdf",
       "status": "skipped",
       "reason": "sourceFile already exists"
     },
     {
-      "sourceFile": "interview-data/PhonePe/PhonePe Interview Experience.pdf",
+      "sourceFile": "interview-data/Russell_Summer_Interns/Russel_Investments_Tech_Intern_Aaryan_Urunkar.pdf",
       "status": "skipped",
       "reason": "sourceFile already exists"
     },
     {
-      "sourceFile": "interview-data/PhonePe/PhonePe _Shubham_Goel_SDE_Intern.pdf",
+      "sourceFile": "interview-data/Russell_Summer_Interns/RussellInvestments_TechIntern_OrenCoelho.pdf",
       "status": "skipped",
       "reason": "sourceFile already exists"
     },
     {
-      "sourceFile": "interview-data/PhonePe/PhonePe_Akash_Yadav_SDE.pdf",
+      "sourceFile": "interview-data/Russell_Summer_Interns/Russell_Investments_Research_Intern_Yateen_Vaviya.pdf",
       "status": "skipped",
       "reason": "sourceFile already exists"
     },
     {
-      "sourceFile": "interview-data/Quantiphi/BA/InterviewExp_Joshua.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgigk7u001fp59i3k3fxaqc"
+      "sourceFile": "interview-data/Russell_Summer_Interns/Russell_Investments_Tech_Intern_Bhavik_Bhatia.pdf",
+      "status": "skipped",
+      "reason": "sourceFile already exists"
     },
     {
-      "sourceFile": "interview-data/Quantiphi/BA/Sarvesha_Quantiphi_BA.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgihc46001gp59idt64sgkw"
-    },
-    {
-      "sourceFile": "interview-data/Quantiphi/FE/Quantiphi Interview Experience.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgii292001hp59i6vu0xpge"
-    },
-    {
-      "sourceFile": "interview-data/Saint Gobain/saint-gobain_Kevin.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgiiqvd001ip59ie798dt18"
-    },
-    {
-      "sourceFile": "interview-data/Siemens/Ishita More_ Siemens_GTE.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgij9xz001jp59i0dv8301n"
-    },
-    {
-      "sourceFile": "interview-data/Siemens/Siemens-GTE.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgijyko001kp59ii1b0nkg9"
-    },
-    {
-      "sourceFile": "interview-data/Transunion/Aniket_Gawade_TransUnion_SDE.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgikp23001lp59ij0mlka60"
-    },
-    {
-      "sourceFile": "interview-data/Transunion/Dylan_Transunion_Software_Developer.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgimi0r001mp59i8kgdo9k4"
-    },
-    {
-      "sourceFile": "interview-data/Ugam/Pranav_UgamExperience.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgin2o6001np59icpmfqixf"
-    },
-    {
-      "sourceFile": "interview-data/Versor/AayushiMasurekar_VersorInvestments_SoftwareEngineer.pdf",
-      "status": "inserted",
-      "resourceId": "cmqginmcx001op59il9vie5av"
-    },
-    {
-      "sourceFile": "interview-data/Wohling Transformation/Divesh Choudhary_Wohlig Transformation_Software Developer.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgio2gv001pp59i7wajl266"
-    },
-    {
-      "sourceFile": "interview-data/Work India/Interview Experience WorkIndia DA.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgionwc001qp59i476p1ff8"
-    },
-    {
-      "sourceFile": "interview-data/Work India/Interview Experience WorkIndia Program Management.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgipbfn001rp59iihnp3xoh"
-    },
-    {
-      "sourceFile": "interview-data/Work India/Interview Experience WorkIndia SDE.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgipxkq001sp59ibyvgpyuy"
-    },
-    {
-      "sourceFile": "interview-data/Work India/Interview Experience WorkIndia.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgiqj4x001tp59i6hv4yphv"
-    },
-    {
-      "sourceFile": "interview-data/Work India/Pranav_Kumar_Workindia_SDE.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgir5xy001up59i1gnej49q"
-    },
-    {
-      "sourceFile": "interview-data/Work India/Prerna_Arora_WorkIndia_DA_Interview_Experience.pdf",
-      "status": "inserted",
-      "resourceId": "cmqgishc0001vp59if45ae3cc"
+      "sourceFile": "interview-data/Russell_Summer_Interns/Russell_Investments_Tech_Intern_Daksh_Jain.pdf",
+      "status": "skipped",
+      "reason": "sourceFile already exists"
     }
   ]
 }

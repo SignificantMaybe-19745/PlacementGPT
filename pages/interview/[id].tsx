@@ -57,7 +57,7 @@ function MarkdownRenderer({ content }: { content: string }) {
         </p>
       </div>
 
-      <div className="px-5 py-6 sm:px-7">
+      <div className="overflow-x-auto px-4 py-5 sm:px-7">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           components={{
@@ -143,13 +143,19 @@ export default function InterviewPage() {
   const [summary, setSummary] = useState("");
   const [summaryLoading, setSummaryLoading] = useState(false);
   const [summaryError, setSummaryError] = useState("");
-
+  const [related, setRelated] = useState<any[]>([]);
   useEffect(() => {
     if (!id || typeof id !== "string") return;
 
     async function loadInterview() {
       setLoading(true);
       setResource(null);
+      const relatedRes = await fetch(`/api/interview/${id}/related`);
+
+if (relatedRes.ok) {
+  const relatedData = await relatedRes.json();
+  setRelated(relatedData);
+}
       setSummary("");
       setSummaryError("");
       setCopied(false);
@@ -226,7 +232,7 @@ export default function InterviewPage() {
       <main className="min-h-screen bg-background">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
           <div className="mb-6 h-8 w-40 animate-pulse rounded-full bg-muted" />
-          <div className="grid gap-8 lg:grid-cols-[1.7fr_0.8fr]">
+          <div className="grid grid-cols-1 gap-8 xl:grid-cols-[1.7fr_0.8fr]">
             <div className="space-y-4">
               <div className="h-40 animate-pulse rounded-3xl bg-muted" />
               <div className="h-[700px] animate-pulse rounded-3xl bg-muted" />
@@ -369,7 +375,7 @@ export default function InterviewPage() {
                   </Badge>
                 </div>
 
-                <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl">
+                <h1 className="mt-5 max-w-4xl text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
                   {resource.title}
                 </h1>
 
@@ -384,7 +390,7 @@ export default function InterviewPage() {
                 </div>
               </div>
 
-              <div className="grid gap-3 px-6 py-5 sm:grid-cols-3 sm:px-8">
+              <div className="grid grid-cols-1 gap-3 px-6 py-5 sm:grid-cols-3 sm:px-8">
                 <div className="rounded-2xl border border-border/60 bg-background/70 p-4">
                   <div className="text-xs uppercase tracking-wider text-muted-foreground">
                     Words
@@ -414,7 +420,43 @@ export default function InterviewPage() {
 
             <MarkdownRenderer content={resource.content.trim()} />
           </div>
+         {related.length > 0 && (
+  <Card className="border-border/60 bg-card/80 shadow-xl">
+    <CardContent className="p-6">
+      <h2 className="mb-5 text-2xl font-semibold">
+        🔗 Related Interviews
+      </h2>
 
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        {related.map((item) => (
+          <Link
+            key={item.id}
+            href={`/interview/${item.id}`}
+            className="group rounded-2xl border border-border/60 p-5 transition-all hover:border-primary/40 hover:shadow-lg"
+          >
+            
+
+            <h3 className="line-clamp-2 text-lg font-semibold transition-colors group-hover:text-primary">
+              {item.title}
+            </h3>
+
+            {item.role && (
+              <p className="mt-2 text-sm text-muted-foreground">
+                {item.role}
+              </p>
+            )}
+
+            {item.candidate && (
+              <p className="mt-1 text-xs text-muted-foreground">
+                Candidate: {item.candidate}
+              </p>
+            )}
+          </Link>
+        ))}
+      </div>
+    </CardContent>
+  </Card>
+)}         
           <aside className="space-y-6 lg:sticky lg:top-6 lg:h-fit">
             <Card className="overflow-hidden border-border/60 bg-card/80 shadow-xl backdrop-blur">
               <CardContent className="p-5">
@@ -427,7 +469,7 @@ export default function InterviewPage() {
                   <Button
                     onClick={copyMarkdown}
                     variant="secondary"
-                    className="justify-start rounded-2xl"
+                    className="w-full justify-start rounded-2xl"
                   >
                     <Copy className="mr-2 h-4 w-4" />
                     {copied ? "Copied!" : "Copy markdown"}
@@ -436,7 +478,7 @@ export default function InterviewPage() {
                   <Button
                     onClick={generateSummary}
                     variant="outline"
-                    className="justify-start rounded-2xl"
+                    className="w-full justify-start rounded-2xl"
                     disabled={summaryLoading}
                   >
                     <Sparkles className="mr-2 h-4 w-4" />
@@ -450,7 +492,7 @@ export default function InterviewPage() {
                   <Button
                     asChild
                     variant="outline"
-                    className="justify-start rounded-2xl"
+                    className="w-full justify-start rounded-2xl"
                   >
                     <Link href="/">
                       <ArrowLeft className="mr-2 h-4 w-4" />

@@ -152,7 +152,7 @@ export default function Home() {
         >
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border bg-card/70 px-4 py-2 text-sm text-muted-foreground shadow-sm backdrop-blur">
             <Sparkles className="h-4 w-4 text-primary" />
-            <span>250+ interview experiences indexed</span>
+            <span>400+ interview experiences indexed</span>
           </div>
 
           <h1 className="max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">

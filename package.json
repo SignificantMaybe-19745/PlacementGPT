@@ -17,6 +17,7 @@
     "fast-glob": "^3.3.3",
     "framer-motion": "^12.40.0",
     "groq-sdk": "^1.2.1",
+    "jq": "^1.7.2",
     "lucide-react": "^1.18.0",
     "next": "16.2.9",
     "pdfjs-dist": "^6.0.227",
