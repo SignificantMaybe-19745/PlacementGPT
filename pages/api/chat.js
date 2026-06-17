@@ -1,4 +1,4 @@
-import Groq from "groq-sdk";
+import { createCompletion } from "@/lib/groq";
 import { hybridSearch } from "../../lib/retrieve";
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -27,11 +27,8 @@ ${doc.content.slice(0, 3000)}
       )
       .join("\n\n---------------------\n\n");
 
-    const groq = new Groq({
-      apiKey: process.env.GROQ_API_KEY,
-    });
-
-    const completion = await groq.chat.completions.create({
+    
+    const { completion, modelUsed } = await createCompletion({
       model: process.env.GROQ_MODEL || "openai/gpt-oss-120b",
       temperature: 0.2,
       messages: [
@@ -41,7 +38,7 @@ ${doc.content.slice(0, 3000)}
 You are an AI interview preparation assistant.
 
 Answer ONLY using the provided interview documents.
-
+Do not answer is vague terms be precise
 If the documents do not contain enough information, explicitly say:
 "I could not find enough evidence in the indexed interview experiences."
 
@@ -73,6 +70,7 @@ const answer = raw
     return res.status(200).json({
       answer,
       sources: docs,
+      modelUsed
     });
   } catch (err) {
     console.error(err);

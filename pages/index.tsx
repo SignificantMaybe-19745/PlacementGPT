@@ -9,6 +9,9 @@ import { SearchFilters } from "@/components/search/search-filters";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 import {
   BrainCircuit,
   Rocket,
@@ -321,54 +324,57 @@ export default function Home() {
                     <div className="h-4 w-2/3 animate-pulse rounded bg-muted" />
                   </div>
                 ) : answer ? (
-                  <div className="space-y-4">
-                    <div className="whitespace-pre-wrap text-sm leading-7 text-foreground/90">
-                      {answer}
-                    </div>
+  <div className="space-y-4">
+    <div className="overflow-hidden rounded-2xl border border-border/60 bg-background/70">
+      <div className="overflow-x-auto p-4">
+        <div className="prose prose-sm max-w-none dark:prose-invert
+                        prose-table:min-w-full
+                        prose-table:border-collapse
+                        prose-th:border prose-th:border-border/60 prose-th:bg-muted prose-th:px-3 prose-th:py-2 prose-th:text-left
+                        prose-td:border prose-td:border-border/60 prose-td:px-3 prose-td:py-2
+                        prose-img:rounded-xl">
+          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+            {answer}
+          </ReactMarkdown>
+        </div>
+      </div>
+    </div>
 
-                    {sources.length > 0 ? (
-                      <div className="pt-4">
-                        <div className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                          Sources used
-                        </div>
-                        <div className="space-y-3">
-                          {sources.slice(0, 3).map((src) => (
-                            <a
-                              key={src.id}
-                              href={`/interview/${src.id}`}
-                              className="block rounded-2xl border border-border/60 bg-background/70 p-3 transition hover:border-primary/30 hover:bg-background"
-                            >
-                              <div className="flex items-center justify-between gap-3">
-                                <div>
-                                  <div className="text-sm font-medium">
-                                    {src.company}
-                                  </div>
-                                  <div className="text-xs text-muted-foreground">
-                                    {src.title}
-                                  </div>
-                                </div>
-                                <Badge variant="outline" className="rounded-full">
-                                  Open
-                                </Badge>
-                              </div>
-                              <p className="mt-2 line-clamp-2 text-xs leading-5 text-muted-foreground">
-                                {(src.content ?? "")
-                                  .replace(/\s+/g, " ")
-                                  .trim()
-                                  .slice(0, 160)}
-                              </p>
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    ) : null}
-                  </div>
-                ) : (
-                  <div className="rounded-2xl border border-dashed p-5 text-sm text-muted-foreground">
-                    Ask a question and I will pull the most relevant interview
-                    experiences, then synthesize an answer from them.
-                  </div>
-                )}
+    {sources.length > 0 ? (
+      <div className="pt-4">
+        <div className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          Sources used
+        </div>
+        <div className="space-y-3">
+          {sources.slice(0, 3).map((src) => (
+            <a
+              key={src.id}
+              href={`/interview/${src.id}`}
+              className="block rounded-2xl border border-border/60 bg-background/70 p-3 transition hover:border-primary/30 hover:bg-background"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <div className="text-sm font-medium">{src.company}</div>
+                  <div className="text-xs text-muted-foreground">{src.title}</div>
+                </div>
+                <Badge variant="outline" className="rounded-full">
+                  Open
+                </Badge>
+              </div>
+              <p className="mt-2 line-clamp-2 text-xs leading-5 text-muted-foreground">
+                {(src.content ?? "").replace(/\s+/g, " ").trim().slice(0, 160)}
+              </p>
+            </a>
+          ))}
+        </div>
+      </div>
+    ) : null}
+  </div>
+) : (
+  <div className="rounded-2xl border border-dashed p-5 text-sm text-muted-foreground">
+    Ask a question and I will pull the most relevant interview experiences, then synthesize an answer from them.
+  </div>
+)}
               </CardContent>
             </Card>
           </motion.aside>

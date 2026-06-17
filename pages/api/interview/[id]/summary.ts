@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Groq from "groq-sdk";
+import { createCompletion } from "../../../../lib/groq";
 import { prisma } from "@/lib/prisma";
 
 export default async function handler(
@@ -25,12 +25,10 @@ export default async function handler(
       return res.status(404).json({ error: "Resource not found" });
     }
 
-    const groq = new Groq({
-      apiKey: process.env.GROQ_API_KEY,
-    });
+    
 
-    const completion = await groq.chat.completions.create({
-      model: process.env.GROQ_MODEL || "openai/gpt-oss-120b",
+    const { completion, modelUsed } = await createCompletion({
+      
       temperature: 0.2,
       messages: [
         {
