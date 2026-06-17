@@ -60,7 +60,7 @@ export default function Home() {
   const [sources, setSources] = useState<any[]>([]);
   const [chatLoading, setChatLoading] = useState(false);
   const [chatError, setChatError] = useState("");
-
+  const [chatRetryable, setChatRetryable] = useState(false);
   useEffect(() => {
     if (!query.trim()) {
       setResults([]);
@@ -100,6 +100,7 @@ export default function Home() {
   }, [results, companyFilter, roleFilter]);
 
   async function handleAskAI(e: React.FormEvent) {
+    setChatRetryable(false);
     e.preventDefault();
 
     if (!question.trim()) return;
@@ -121,13 +122,17 @@ export default function Home() {
       const data = await res.json();
 
       if (!res.ok) {
+         setChatRetryable(Boolean(data?.retryable));
         throw new Error(data?.error || "Chat request failed");
       }
 
       const raw = data.answer ?? "";
-      const cleaned = String(raw).replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+const cleaned = String(raw)
+  .replace(/<think>[\s\S]*?<\/think>/gi, "")
+  .replace(/<br\s*\/?>/gi, "\n")
+  .trim();
 
-      setAnswer(cleaned);
+setAnswer(cleaned);
       setSources(data.sources ?? []);
     } catch (err: any) {
       setChatError(err?.message || "Failed to generate answer.");
@@ -302,12 +307,32 @@ export default function Home() {
             </Card>
 
             {chatError ? (
-              <Card className="border-red-500/20 bg-red-500/5">
-                <CardContent className="p-4 text-sm text-red-600">
-                  {chatError}
-                </CardContent>
-              </Card>
-            ) : null}
+  <Card
+    className={
+      chatRetryable
+        ? "border-amber-500/20 bg-amber-500/5"
+        : "border-red-500/20 bg-red-500/5"
+    }
+  >
+    <CardContent
+      className={
+        chatRetryable
+          ? "p-4 text-sm text-amber-700 dark:text-amber-300"
+          : "p-4 text-sm text-red-600"
+      }
+    >
+      <div className="font-medium">
+        {chatRetryable ? "AI temporarily unavailable" : "AI answer failed"}
+      </div>
+      <p className="mt-1">{chatError}</p>
+      {chatRetryable ? (
+        <p className="mt-2 text-xs opacity-80">
+          Search and browsing still work normally.
+        </p>
+      ) : null}
+    </CardContent>
+  </Card>
+) : null}
 
             <Card className="border-border/60 bg-card/80 shadow-xl backdrop-blur">
               <CardContent className="p-5">

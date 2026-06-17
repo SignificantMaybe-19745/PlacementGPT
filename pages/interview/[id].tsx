@@ -143,6 +143,7 @@ export default function InterviewPage() {
   const [summary, setSummary] = useState("");
   const [summaryLoading, setSummaryLoading] = useState(false);
   const [summaryError, setSummaryError] = useState("");
+  const [summaryRetryable, setSummaryRetryable] = useState(false);
   const [related, setRelated] = useState<any[]>([]);
   useEffect(() => {
     if (!id || typeof id !== "string") return;
@@ -192,6 +193,7 @@ if (relatedRes.ok) {
   }, [resource?.content]);
 
   async function generateSummary() {
+    setSummaryRetryable(false);
     if (!resource?.id) return;
 
     setSummaryLoading(true);
@@ -203,6 +205,7 @@ if (relatedRes.ok) {
       const data = await res.json();
 
       if (!res.ok) {
+        setSummaryRetryable(Boolean(data?.retryable));
         throw new Error(data?.error || "Failed to generate summary");
       }
 
@@ -317,12 +320,34 @@ if (relatedRes.ok) {
                 </CardContent>
               </Card>
             ) : summaryError ? (
-              <Card className="border-red-500/20 bg-red-500/5 shadow-xl">
-                <CardContent className="p-5 text-sm text-red-600">
-                  {summaryError}
-                </CardContent>
-              </Card>
-            ) : summary ? (
+  <Card
+    className={
+      summaryRetryable
+        ? "border-amber-500/20 bg-amber-500/5 shadow-xl"
+        : "border-red-500/20 bg-red-500/5 shadow-xl"
+    }
+  >
+    <CardContent
+      className={
+        summaryRetryable
+          ? "p-5 text-sm text-amber-700 dark:text-amber-300"
+          : "p-5 text-sm text-red-600"
+      }
+    >
+      <div className="font-medium">
+        {summaryRetryable
+          ? "AI summary temporarily unavailable"
+          : "Could not generate summary"}
+      </div>
+      <p className="mt-1">{summaryError}</p>
+      {summaryRetryable ? (
+        <p className="mt-2 text-xs opacity-80">
+          The interview content below is still fully available.
+        </p>
+      ) : null}
+    </CardContent>
+  </Card>
+) :  summary ? (
               <Card
                 id="ai-summary-card"
                 className="border-border/60 bg-card/80 shadow-2xl backdrop-blur"
