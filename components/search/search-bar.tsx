@@ -203,7 +203,7 @@ export function SearchBar({
   }
 
   return (
-    <div ref={wrapperRef} className="relative">
+    <div ref={wrapperRef} className="relative z-50">
       <div className="rounded-2xl border border-border/60 bg-background/80 p-3 shadow-lg backdrop-blur">
         <div className="flex items-center gap-3">
           <Search className="ml-1 h-5 w-5 text-muted-foreground" />

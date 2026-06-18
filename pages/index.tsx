@@ -61,6 +61,7 @@ export default function Home() {
   const [chatLoading, setChatLoading] = useState(false);
   const [chatError, setChatError] = useState("");
   const [chatRetryable, setChatRetryable] = useState(false);
+
   useEffect(() => {
     if (!query.trim()) {
       setResults([]);
@@ -122,17 +123,17 @@ export default function Home() {
       const data = await res.json();
 
       if (!res.ok) {
-         setChatRetryable(Boolean(data?.retryable));
+        setChatRetryable(Boolean(data?.retryable));
         throw new Error(data?.error || "Chat request failed");
       }
 
       const raw = data.answer ?? "";
-const cleaned = String(raw)
-  .replace(/<think>[\s\S]*?<\/think>/gi, "")
-  .replace(/<br\s*\/?>/gi, "\n")
-  .trim();
+      const cleaned = String(raw)
+        .replace(/<think>[\s\S]*?<\/think>/gi, "")
+        .replace(/<br\s*\/?>/gi, "\n")
+        .trim();
 
-setAnswer(cleaned);
+      setAnswer(cleaned);
       setSources(data.sources ?? []);
     } catch (err: any) {
       setChatError(err?.message || "Failed to generate answer.");
@@ -195,7 +196,7 @@ setAnswer(cleaned);
             transition={{ duration: 0.45, delay: 0.05 }}
             className="space-y-6"
           >
-            <Card className="border-border/60 bg-card/70 shadow-xl backdrop-blur">
+            <Card className="relative z-20 overflow-visible border-border/60 bg-card/70 shadow-xl backdrop-blur">
               <CardContent className="p-5 sm:p-6">
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -215,6 +216,17 @@ setAnswer(cleaned);
                 </div>
 
                 <SearchBar value={query} onChange={setQuery} />
+              </CardContent>
+            </Card>
+
+            <Card className="relative z-10 border-border/60 bg-card/70 shadow-xl backdrop-blur">
+              <CardContent className="p-5 sm:p-6">
+                <div className="mb-5">
+                  <h3 className="text-lg font-semibold">Refine results</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Narrow down interview experiences by company or role.
+                  </p>
+                </div>
 
                 <SearchFilters
                   company={companyFilter}
@@ -225,7 +237,7 @@ setAnswer(cleaned);
               </CardContent>
             </Card>
 
-            <div className="grid gap-4">
+            <div className="relative z-0 grid gap-4">
               {loading ? (
                 Array.from({ length: 5 }).map((_, i) => (
                   <ResultSkeleton key={i} />
@@ -259,7 +271,7 @@ setAnswer(cleaned);
             initial={{ opacity: 0, x: 16 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.45, delay: 0.1 }}
-            className="space-y-6 xl:sticky xl:top-24 h-fit"
+            className="h-fit space-y-6 xl:sticky xl:top-24"
           >
             <Card className="overflow-hidden border-border/60 bg-card/80 shadow-xl backdrop-blur">
               <div className="border-b bg-gradient-to-r from-primary/10 via-transparent to-cyan-500/10 px-5 py-4">
@@ -300,39 +312,43 @@ setAnswer(cleaned);
                     disabled={chatLoading}
                   >
                     {chatLoading ? "Thinking..." : "Generate answer"}
-                    {!chatLoading ? <ArrowRight className="ml-2 h-4 w-4" /> : null}
+                    {!chatLoading ? (
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    ) : null}
                   </Button>
                 </form>
               </CardContent>
             </Card>
 
             {chatError ? (
-  <Card
-    className={
-      chatRetryable
-        ? "border-amber-500/20 bg-amber-500/5"
-        : "border-red-500/20 bg-red-500/5"
-    }
-  >
-    <CardContent
-      className={
-        chatRetryable
-          ? "p-4 text-sm text-amber-700 dark:text-amber-300"
-          : "p-4 text-sm text-red-600"
-      }
-    >
-      <div className="font-medium">
-        {chatRetryable ? "AI temporarily unavailable" : "AI answer failed"}
-      </div>
-      <p className="mt-1">{chatError}</p>
-      {chatRetryable ? (
-        <p className="mt-2 text-xs opacity-80">
-          Search and browsing still work normally.
-        </p>
-      ) : null}
-    </CardContent>
-  </Card>
-) : null}
+              <Card
+                className={
+                  chatRetryable
+                    ? "border-amber-500/20 bg-amber-500/5"
+                    : "border-red-500/20 bg-red-500/5"
+                }
+              >
+                <CardContent
+                  className={
+                    chatRetryable
+                      ? "p-4 text-sm text-amber-700 dark:text-amber-300"
+                      : "p-4 text-sm text-red-600"
+                  }
+                >
+                  <div className="font-medium">
+                    {chatRetryable
+                      ? "AI temporarily unavailable"
+                      : "AI answer failed"}
+                  </div>
+                  <p className="mt-1">{chatError}</p>
+                  {chatRetryable ? (
+                    <p className="mt-2 text-xs opacity-80">
+                      Search and browsing still work normally.
+                    </p>
+                  ) : null}
+                </CardContent>
+              </Card>
+            ) : null}
 
             <Card className="border-border/60 bg-card/80 shadow-xl backdrop-blur">
               <CardContent className="p-5">
@@ -349,57 +365,72 @@ setAnswer(cleaned);
                     <div className="h-4 w-2/3 animate-pulse rounded bg-muted" />
                   </div>
                 ) : answer ? (
-  <div className="space-y-4">
-    <div className="overflow-hidden rounded-2xl border border-border/60 bg-background/70">
-      <div className="overflow-x-auto p-4">
-        <div className="prose prose-sm max-w-none dark:prose-invert
-                        prose-table:min-w-full
-                        prose-table:border-collapse
-                        prose-th:border prose-th:border-border/60 prose-th:bg-muted prose-th:px-3 prose-th:py-2 prose-th:text-left
-                        prose-td:border prose-td:border-border/60 prose-td:px-3 prose-td:py-2
-                        prose-img:rounded-xl">
-          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
-            {answer}
-          </ReactMarkdown>
-        </div>
-      </div>
-    </div>
+                  <div className="space-y-4">
+                    <div className="overflow-hidden rounded-2xl border border-border/60 bg-background/70">
+                      <div className="overflow-x-auto p-4">
+                        <div
+                          className="
+                            prose prose-sm max-w-none dark:prose-invert
+                            prose-table:min-w-full
+                            prose-table:border-collapse
+                            prose-th:border prose-th:border-border/60 prose-th:bg-muted prose-th:px-3 prose-th:py-2 prose-th:text-left
+                            prose-td:border prose-td:border-border/60 prose-td:px-3 prose-td:py-2
+                            prose-img:rounded-xl
+                          "
+                        >
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            rehypePlugins={[rehypeRaw]}
+                          >
+                            {answer}
+                          </ReactMarkdown>
+                        </div>
+                      </div>
+                    </div>
 
-    {sources.length > 0 ? (
-      <div className="pt-4">
-        <div className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-          Sources used
-        </div>
-        <div className="space-y-3">
-          {sources.slice(0, 3).map((src) => (
-            <a
-              key={src.id}
-              href={`/interview/${src.id}`}
-              className="block rounded-2xl border border-border/60 bg-background/70 p-3 transition hover:border-primary/30 hover:bg-background"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <div className="text-sm font-medium">{src.company}</div>
-                  <div className="text-xs text-muted-foreground">{src.title}</div>
-                </div>
-                <Badge variant="outline" className="rounded-full">
-                  Open
-                </Badge>
-              </div>
-              <p className="mt-2 line-clamp-2 text-xs leading-5 text-muted-foreground">
-                {(src.content ?? "").replace(/\s+/g, " ").trim().slice(0, 160)}
-              </p>
-            </a>
-          ))}
-        </div>
-      </div>
-    ) : null}
-  </div>
-) : (
-  <div className="rounded-2xl border border-dashed p-5 text-sm text-muted-foreground">
-    Ask a question and I will pull the most relevant interview experiences, then synthesize an answer from them.
-  </div>
-)}
+                    {sources.length > 0 ? (
+                      <div className="pt-4">
+                        <div className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                          Sources used
+                        </div>
+                        <div className="space-y-3">
+                          {sources.slice(0, 3).map((src) => (
+                            <a
+                              key={src.id}
+                              href={`/interview/${src.id}`}
+                              className="block rounded-2xl border border-border/60 bg-background/70 p-3 transition hover:border-primary/30 hover:bg-background"
+                            >
+                              <div className="flex items-center justify-between gap-3">
+                                <div>
+                                  <div className="text-sm font-medium">
+                                    {src.company}
+                                  </div>
+                                  <div className="text-xs text-muted-foreground">
+                                    {src.title}
+                                  </div>
+                                </div>
+                                <Badge variant="outline" className="rounded-full">
+                                  Open
+                                </Badge>
+                              </div>
+                              <p className="mt-2 line-clamp-2 text-xs leading-5 text-muted-foreground">
+                                {(src.content ?? "")
+                                  .replace(/\s+/g, " ")
+                                  .trim()
+                                  .slice(0, 160)}
+                              </p>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                ) : (
+                  <div className="rounded-2xl border border-dashed p-5 text-sm text-muted-foreground">
+                    Ask a question and I will pull the most relevant interview
+                    experiences, then synthesize an answer from them.
+                  </div>
+                )}
               </CardContent>
             </Card>
           </motion.aside>
