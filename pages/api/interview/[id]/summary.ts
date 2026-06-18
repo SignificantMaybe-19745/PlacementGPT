@@ -26,7 +26,12 @@ export default async function handler(
     if (!resource) {
       return res.status(404).json({ error: "Resource not found" });
     }
-
+    if (resource.summary) {
+  return res.status(200).json({
+    summary: resource.summary,
+    cached: true,
+  });
+}
     
 
     const { completion, modelUsed } = await createCompletion({
@@ -70,8 +75,15 @@ ${resource.content.slice(0, 8000)}
 
     const raw = completion.choices[0]?.message?.content ?? "";
     const summary = raw.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
-
-    return res.status(200).json({ summary,modelUsed, });
+    await prisma.resource.update({
+  where: {
+    id: resource.id,
+  },
+  data: {
+    summary,
+  },
+});
+    return res.status(200).json({ summary,modelUsed, cached: false, });
   } catch (error: any) {
   console.error("[SUMMARY API]", error);
 
