@@ -290,7 +290,7 @@ export default function Home() {
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
                     placeholder="What should I prepare for PhonePe?"
-                    className="min-h-[140px] w-full rounded-2xl border border-border/60 bg-background/90 p-4 text-sm outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10"
+                    className="min-h-[120px] w-full rounded-2xl border border-border/60 bg-background/90 p-4 text-sm outline-none transition focus:border-primary/40 focus:ring-2 focus:ring-primary/10 sm:min-h-[140px]"
                   />
 
                   <div className="flex flex-wrap gap-2">
@@ -370,11 +370,12 @@ export default function Home() {
                       <div className="overflow-x-auto p-4">
                         <div
                           className="
-                            prose prose-sm max-w-none dark:prose-invert
-                            prose-table:min-w-full
+                            prose prose-sm sm:prose-base max-w-none break-words dark:prose-invert
+                            prose-table:min-w-[640px]
                             prose-table:border-collapse
                             prose-th:border prose-th:border-border/60 prose-th:bg-muted prose-th:px-3 prose-th:py-2 prose-th:text-left
                             prose-td:border prose-td:border-border/60 prose-td:px-3 prose-td:py-2
+                            prose-pre:overflow-x-auto prose-pre:max-w-full
                             prose-img:rounded-xl
                           "
                         >
