@@ -18,5 +18,6 @@ model Resource {
   sourceFile String
   createdAt  DateTime @default(now())
   embedding Unsupported("vector(384)")?
+  summary     String?  
   @@index([company])
 }
