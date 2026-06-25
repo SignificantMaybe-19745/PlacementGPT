@@ -1,53 +1,13 @@
 {
-  "total": 9,
-  "inserted": 6,
+  "total": 1,
+  "inserted": 1,
   "skipped": 0,
-  "failed": 3,
+  "failed": 0,
   "report": [
     {
-      "sourceFile": "interview-data/Oracle/AakankshaDhawale_Oracle_AssociateApplicationDeveloper.pdf",
+      "sourceFile": "interview-data/Transunion /TransUnion_Developer_Yash Sawai.pdf",
       "status": "inserted",
-      "resourceId": "cmqj26fge0000p53pv95g2708"
-    },
-    {
-      "sourceFile": "interview-data/Oracle/Dilip Patel_Associate Application Developer.pdf",
-      "status": "inserted",
-      "resourceId": "cmqj26vng0001p53ps4l2t5lx"
-    },
-    {
-      "sourceFile": "interview-data/Oracle/Durvesh Chaudhari_AAD.pdf",
-      "status": "inserted",
-      "resourceId": "cmqj27bze0002p53pqbmacm6s"
-    },
-    {
-      "sourceFile": "interview-data/Oracle/Jay Vele Oracle.pdf",
-      "status": "inserted",
-      "resourceId": "cmqj27uoa0003p53pprjns273"
-    },
-    {
-      "sourceFile": "interview-data/Oracle/Kaustubh Ghare_Oracle_Associate Application Developer.pdf",
-      "status": "inserted",
-      "resourceId": "cmqj28bbt0004p53pe3gdu2xa"
-    },
-    {
-      "sourceFile": "interview-data/Oracle/Keval_Savla_Associate_Application_Developer_Oracle.pdf",
-      "status": "inserted",
-      "resourceId": "cmqj28oui0005p53pabmzvni6"
-    },
-    {
-      "sourceFile": "interview-data/Oracle/Meet Shrimankar_ORACLE_AAD.pdf",
-      "status": "failed",
-      "reason": "Unable to ingest even after shrinking the input."
-    },
-    {
-      "sourceFile": "interview-data/Oracle/Prateek_Redkar_Oracle_Interview Experience.pdf",
-      "status": "failed",
-      "reason": "Unable to ingest even after shrinking the input."
-    },
-    {
-      "sourceFile": "interview-data/Oracle/Yug Harlalka_Associate Application Developer.pdf",
-      "status": "failed",
-      "reason": "Unable to ingest even after shrinking the input."
+      "resourceId": "cmqtgsn0d0000p5evq8shjo0q"
     }
   ]
 }

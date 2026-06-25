@@ -19,5 +19,19 @@ model Resource {
   createdAt  DateTime @default(now())
   embedding Unsupported("vector(384)")?
   summary     String?  
+  chunks      ResourceChunk[]
   @@index([company])
+}
+model ResourceChunk {
+  id         String   @id @default(cuid())
+  resourceId String
+  chunkIndex Int
+  content    String
+  embedding  Unsupported("vector(384)")?
+  createdAt  DateTime @default(now())
+
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@index([resourceId])
+  @@unique([resourceId, chunkIndex])
 }

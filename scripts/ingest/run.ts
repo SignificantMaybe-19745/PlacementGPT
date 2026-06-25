@@ -8,6 +8,7 @@ import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 import { prisma } from "../../lib/prisma";
 import { INTERVIEW_SYSTEM_PROMPT, buildUserPrompt } from "./prompts";
 import { spawnSync } from "child_process";
+import { chunkText } from "./chunker";
 type CliOptions = {
   dir: string;
   file?: string;
@@ -489,6 +490,7 @@ const fingerprint = crypto
     return { sourceFile, status: "skipped", reason: "duplicate content" };
   }
   const embeddingText = buildEmbeddingText(sanitized, markdown);
+  const chunks = chunkText(markdown);
 
 let embeddingLiteral: string | null = null;
 
@@ -533,6 +535,27 @@ try {
     SET embedding = ${embeddingLiteral}::vector
     WHERE id = ${created.id}
   `;
+}
+// Create chunk embeddings
+for (let i = 0; i < chunks.length; i++) {
+  try {
+    const chunkEmbedding = generateEmbedding(chunks[i]);
+    const chunkEmbeddingLiteral = `[${chunkEmbedding.join(",")}]`;
+
+    await prisma.$executeRaw`
+      INSERT INTO "ResourceChunk"
+      ("id", "resourceId", "chunkIndex", "content", "embedding")
+      VALUES (
+        gen_random_uuid()::text,
+        ${created.id},
+        ${i},
+        ${chunks[i]},
+        ${chunkEmbeddingLiteral}::vector
+      )
+    `;
+  } catch (err) {
+    console.warn(`⚠️ Failed to embed chunk ${i} for ${sourceFile}`);
+  }
 }
   return {
     sourceFile,

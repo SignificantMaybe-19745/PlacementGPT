@@ -370,21 +370,59 @@ export default function Home() {
                       <div className="overflow-x-auto p-4">
                         <div
                           className="
-                            prose prose-sm sm:prose-base max-w-none break-words dark:prose-invert
-                            prose-table:min-w-[640px]
-                            prose-table:border-collapse
-                            prose-th:border prose-th:border-border/60 prose-th:bg-muted prose-th:px-3 prose-th:py-2 prose-th:text-left
-                            prose-td:border prose-td:border-border/60 prose-td:px-3 prose-td:py-2
-                            prose-pre:overflow-x-auto prose-pre:max-w-full
-                            prose-img:rounded-xl
-                          "
+  prose prose-sm sm:prose-base
+  dark:prose-invert
+  max-w-none
+  break-words
+
+  prose-headings:scroll-mt-20
+
+  prose-pre:overflow-x-auto
+  prose-pre:max-w-full
+
+  prose-code:break-words
+
+  prose-img:rounded-xl
+
+  prose-ul:my-3
+  prose-ol:my-3
+
+  prose-p:leading-7
+"
                         >
                           <ReactMarkdown
-                            remarkPlugins={[remarkGfm]}
-                            rehypePlugins={[rehypeRaw]}
-                          >
-                            {answer}
-                          </ReactMarkdown>
+  remarkPlugins={[remarkGfm]}
+  rehypePlugins={[rehypeRaw]}
+  components={{
+    table: ({ children }) => (
+      <div className="my-6 w-full overflow-x-auto rounded-xl border border-border/60">
+        <table className="min-w-full border-collapse text-sm">
+          {children}
+        </table>
+      </div>
+    ),
+
+    thead: ({ children }) => (
+      <thead className="bg-muted/60">
+        {children}
+      </thead>
+    ),
+
+    th: ({ children }) => (
+      <th className="border border-border/60 px-4 py-3 text-left font-semibold whitespace-nowrap">
+        {children}
+      </th>
+    ),
+
+    td: ({ children }) => (
+      <td className="border border-border/60 px-4 py-3 align-top">
+        {children}
+      </td>
+    ),
+  }}
+>
+  {answer}
+</ReactMarkdown>
                         </div>
                       </div>
                     </div>
