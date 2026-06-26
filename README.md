@@ -36,10 +36,6 @@ PlacementGPT ingests that raw archive, structures it with an LLM, embeds it, and
 - **Fast autocomplete** — typeahead across companies, roles, and titles with weighted relevance scoring
 - **Polished UI** — dark mode, smooth transitions, and a responsive layout built on shadcn/ui, Tailwind, and Framer Motion
 
-## Demo
-
-> Add screenshots or a short GIF for each of these — they sell the project faster than any paragraph:
-
 # PlacementGPT
 
 ## 🏠 Home & Search
