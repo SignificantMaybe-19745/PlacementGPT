@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SearchBar } from "@/components/search/search-bar";
@@ -49,6 +49,7 @@ const quickQuestions = [
 ];
 
 export default function Home() {
+  const [input, setInput] = useState("");
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -62,28 +63,45 @@ export default function Home() {
   const [chatError, setChatError] = useState("");
   const [chatRetryable, setChatRetryable] = useState(false);
 
+  const abortRef = useRef<AbortController | null>(null);
+
   useEffect(() => {
     if (!query.trim()) {
       setResults([]);
+      setLoading(false);
       return;
     }
 
+    setResults([]);
+    setLoading(true);
+
     const timer = setTimeout(async () => {
-      setLoading(true);
+      abortRef.current?.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
+
       try {
         const res = await fetch(
-          `/api/search?q=${encodeURIComponent(query)}&limit=20`
+          `/api/search?q=${encodeURIComponent(query)}&limit=20`,
+          { signal: controller.signal }
         );
         const data = await res.json();
-        setResults(data.results ?? data);
-      } catch (err) {
-        console.error(err);
+        setResults(Array.isArray(data) ? data : (data.results ?? []));
+      } catch (err: any) {
+        if (err?.name !== "AbortError") {
+          console.error(err);
+        }
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     }, 300);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      abortRef.current?.abort();
+    };
   }, [query]);
 
   const filteredResults = useMemo(() => {
@@ -180,7 +198,10 @@ export default function Home() {
             {quickSearches.map((item) => (
               <button
                 key={item}
-                onClick={() => setQuery(item)}
+                onClick={() => {
+  setInput(item);
+  setQuery(item);
+}}
                 className="rounded-full border bg-card/60 px-4 py-2 text-sm text-muted-foreground transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:bg-card hover:text-foreground"
               >
                 {item}
@@ -215,7 +236,15 @@ export default function Home() {
                   ) : null}
                 </div>
 
-                <SearchBar value={query} onChange={setQuery} />
+                <form
+  onSubmit={(e) => {
+    e.preventDefault();
+    (document.activeElement as HTMLElement)?.blur();
+    setQuery(input.trim());
+  }}
+>
+  <SearchBar value={input} onChange={setInput} />
+</form>
               </CardContent>
             </Card>
 
@@ -436,7 +465,7 @@ export default function Home() {
                           {sources.slice(0, 3).map((src) => (
                             <a
                               key={src.id}
-                              href={`/interview/${src.id}`}
+                              href={`/interview/${src.resourceId ?? src.id}`}
                               className="block rounded-2xl border border-border/60 bg-background/70 p-3 transition hover:border-primary/30 hover:bg-background"
                             >
                               <div className="flex items-center justify-between gap-3">

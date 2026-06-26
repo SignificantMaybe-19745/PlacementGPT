@@ -8,9 +8,7 @@ export default async function handler(req, res) {
     if (!q) {
       return res.status(200).json([]);
     }
-
     const results = await hybridSearch(q, limit);
-
     return res.status(200).json(results);
   } catch (err) {
     console.error(err);
